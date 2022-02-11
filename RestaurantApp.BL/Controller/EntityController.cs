@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantApp.BL.EF;
+using System.ComponentModel;
 
 namespace RestaurantApp.BL.Controller
 {
@@ -14,10 +15,10 @@ namespace RestaurantApp.BL.Controller
         {
             Db = context;
             Table = Db.Set<T>();
-            Table.Load();
+            Table.LoadAsync();
         }
 
-        public IEnumerable<T> GetAll() => Table.Local.ToBindingList();
+        public BindingList<T> GetAll() => Table.Local.ToBindingList();
 
         public T GetOne(object id) => Table.Find(id);
 

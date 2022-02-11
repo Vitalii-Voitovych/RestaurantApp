@@ -15,7 +15,7 @@ namespace RestaurantApp.UI.Forms
             controller = new EntityController<T>(context);
             dataGridView1.DataSource = controller.GetAll();
         }
-
+        // TODO: Рефакторинг
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             switch (typeof(T).Name)

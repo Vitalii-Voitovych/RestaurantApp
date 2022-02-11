@@ -50,5 +50,22 @@ namespace RestaurantApp.UI
             var form = new Forms.DataGridForm<Payment>(context);
             form.Show();
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                comboBoxTypeDish.Invoke(() =>
+                {
+                    comboBoxTypeDish.DataSource = context.TypeDishes.ToArray();
+                });
+                listBoxMenu.Invoke(() =>
+                {
+                    listBoxMenu.Items.AddRange(context.Dishes.ToArray());
+                });
+            });
+        }
+
+        // TODO: Вибір по категоріям
     }
 }
