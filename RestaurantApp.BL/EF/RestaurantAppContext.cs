@@ -11,8 +11,8 @@ namespace RestaurantApp.BL.EF
         }
 
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<TypeProduct> TypeProducts { get; set; }
+        public DbSet<Dish> Dishes { get; set; }
+        public DbSet<TypeDish> TypeDishes { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Payment> Payments { get; set; }
 

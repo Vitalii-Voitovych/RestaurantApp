@@ -41,6 +41,36 @@ namespace RestaurantApp.BL.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("RestaurantApp.BL.Models.Dish", b =>
+                {
+                    b.Property<int>("DishId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DishId"), 1L, 1);
+
+                    b.Property<double>("Kilocalories")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TypeDishId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Weight")
+                        .HasColumnType("float");
+
+                    b.HasKey("DishId");
+
+                    b.HasIndex("TypeDishId");
+
+                    b.ToTable("Dishes");
+                });
+
             modelBuilder.Entity("RestaurantApp.BL.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -73,65 +103,49 @@ namespace RestaurantApp.BL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"), 1L, 1);
 
+                    b.Property<int>("DishId")
+                        .HasColumnType("int");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PaymentId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("DishId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("RestaurantApp.BL.Models.Product", b =>
+            modelBuilder.Entity("RestaurantApp.BL.Models.TypeDish", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("TypeDishId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"), 1L, 1);
-
-                    b.Property<double>("Calories")
-                        .HasColumnType("float");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypeDishId"), 1L, 1);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.HasKey("TypeDishId");
 
-                    b.Property<int>("TypeProductId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Weight")
-                        .HasColumnType("float");
-
-                    b.HasKey("ProductId");
-
-                    b.HasIndex("TypeProductId");
-
-                    b.ToTable("Products");
+                    b.ToTable("TypeDishes");
                 });
 
-            modelBuilder.Entity("RestaurantApp.BL.Models.TypeProduct", b =>
+            modelBuilder.Entity("RestaurantApp.BL.Models.Dish", b =>
                 {
-                    b.Property<int>("TypeProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("RestaurantApp.BL.Models.TypeDish", "TypeDish")
+                        .WithMany("Dishes")
+                        .HasForeignKey("TypeDishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypeProductId"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TypeProductId");
-
-                    b.ToTable("TypeProducts");
+                    b.Navigation("TypeDish");
                 });
 
             modelBuilder.Entity("RestaurantApp.BL.Models.Order", b =>
@@ -147,32 +161,21 @@ namespace RestaurantApp.BL.Migrations
 
             modelBuilder.Entity("RestaurantApp.BL.Models.Payment", b =>
                 {
+                    b.HasOne("RestaurantApp.BL.Models.Dish", "Dish")
+                        .WithMany("Payments")
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RestaurantApp.BL.Models.Order", "Order")
                         .WithMany("Payments")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RestaurantApp.BL.Models.Product", "Product")
-                        .WithMany("Payments")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Dish");
 
                     b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("RestaurantApp.BL.Models.Product", b =>
-                {
-                    b.HasOne("RestaurantApp.BL.Models.TypeProduct", "TypeProduct")
-                        .WithMany("Products")
-                        .HasForeignKey("TypeProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TypeProduct");
                 });
 
             modelBuilder.Entity("RestaurantApp.BL.Models.Customer", b =>
@@ -180,19 +183,19 @@ namespace RestaurantApp.BL.Migrations
                     b.Navigation("Orders");
                 });
 
+            modelBuilder.Entity("RestaurantApp.BL.Models.Dish", b =>
+                {
+                    b.Navigation("Payments");
+                });
+
             modelBuilder.Entity("RestaurantApp.BL.Models.Order", b =>
                 {
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("RestaurantApp.BL.Models.Product", b =>
+            modelBuilder.Entity("RestaurantApp.BL.Models.TypeDish", b =>
                 {
-                    b.Navigation("Payments");
-                });
-
-            modelBuilder.Entity("RestaurantApp.BL.Models.TypeProduct", b =>
-                {
-                    b.Navigation("Products");
+                    b.Navigation("Dishes");
                 });
 #pragma warning restore 612, 618
         }

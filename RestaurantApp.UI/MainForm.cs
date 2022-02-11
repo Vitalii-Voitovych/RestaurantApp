@@ -18,5 +18,10 @@ namespace RestaurantApp.UI
         {
             InitializeComponent();
         }
+
+        private void DishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
