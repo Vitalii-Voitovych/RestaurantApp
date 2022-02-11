@@ -6,28 +6,29 @@ namespace RestaurantApp.BL.Controller
     public class EntityController<T>
         where T : class
     {
-        private readonly DbSet<T> table;
-        private readonly RestaurantAppContext db;
+        public RestaurantAppContext Db { get; }
+
+        public DbSet<T> Table { get; }
 
         public EntityController(RestaurantAppContext context)
         {
-            db = context;
-            table = db.Set<T>();
-            table.Load();
+            Db = context;
+            Table = Db.Set<T>();
+            Table.Load();
         }
 
-        public IEnumerable<T> GetAll() => table.Local.ToBindingList();
+        public IEnumerable<T> GetAll() => Table.Local.ToBindingList();
 
-        public T GetOne(object id) => table.Find(id);
+        public T GetOne(object id) => Table.Find(id);
 
-        public void Update() => db.SaveChanges();
+        public void Update() => Db.SaveChanges();
 
         public void AddRecord(T entity)
         {
             if (entity != null)
             {
-                table.Add(entity);
-                db.SaveChanges();
+                Table.Add(entity);
+                Db.SaveChanges();
             }
         }
 
@@ -35,8 +36,8 @@ namespace RestaurantApp.BL.Controller
         {
             if (entity != null)
             {
-                table.Remove(entity);
-                db.SaveChanges();
+                Table.Remove(entity);
+                Db.SaveChanges();
             }
         }
 
