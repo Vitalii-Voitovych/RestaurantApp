@@ -13,45 +13,47 @@ namespace RestaurantApp.UI
         {
             InitializeComponent();
             context = new RestaurantAppContext();
+            cart = new Cart();
         }
 
         private void DishToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new Forms.DataGridForm<Dish>(context);
+            var form = new DataGridForm<Dish>(context);
             if (form.ShowDialog() == DialogResult.Cancel)
             {
                 if (comboBoxTypeDish.SelectedItem is TypeDish type)
                 {
-                    listBoxMenu.DataSource =
-                        context.Dishes.Where(d => d.TypeDishId == type.TypeDishId).OrderBy(d => d.Name).ToList();
+                    listBoxMenu.Items.Clear();
+                    listBoxMenu.Items.AddRange(context.Dishes.Where(d => d.TypeDishId == type.TypeDishId).OrderBy(d => d.Name).ToArray());
                 }
             }
         }
 
         private void TypeDishToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new Forms.DataGridForm<TypeDish>(context);
+            var form = new DataGridForm<TypeDish>(context);
             if (form.ShowDialog() == DialogResult.Cancel)
             {
-                comboBoxTypeDish.DataSource = context.TypeDishes.ToList();
+                comboBoxTypeDish.Items.Clear();
+                comboBoxTypeDish.Items.AddRange(context.TypeDishes.ToArray());
             }
         }
 
         private void CustomerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new Forms.DataGridForm<Customer>(context);
+            var form = new DataGridForm<Customer>(context);
             form.Show();
         }
 
         private void OrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new Forms.DataGridForm<Order>(context);
+            var form = new DataGridForm<Order>(context);
             form.Show();
         }
 
         private void PaymentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new Forms.DataGridForm<Payment>(context);
+            var form = new DataGridForm<Payment>(context);
             form.Show();
         }
 
@@ -61,51 +63,50 @@ namespace RestaurantApp.UI
             {
                 comboBoxTypeDish.Invoke(() =>
                 {
-                    comboBoxTypeDish.DataSource = context.TypeDishes.ToList();
+                    comboBoxTypeDish.Items.AddRange(context.TypeDishes.ToArray());
                 });
                 listBoxMenu.Invoke(() =>
                 {
-                    if (comboBoxTypeDish.SelectedItem is TypeDish type)
+                    if (comboBoxTypeDish.SelectedItem is not TypeDish )
                     {
-                        listBoxMenu.DataSource =
-                            context.Dishes.Where(d => d.TypeDishId == type.TypeDishId).OrderBy(d => d.Name).ToList();
+                        listBoxMenu.Items.AddRange(context.Dishes.OrderBy(d => d.Name).ToArray());
                     }
                 });
             });
-            var customerForm = new LoginForm(context);
-            if (customerForm.ShowDialog() == DialogResult.OK)
-            {
-                if (customerForm.IsLoggedIn)
-                {
-                    labelCustomer.Text = $"{customerForm.GetCustomer()}";
-                }
-                else
-                {
-                    Close();
-                }
-            }
-            else
-            {
-                Close();
-            }
-            cart = new Cart();
         }
 
         private void ComboBoxTypeDish_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxTypeDish.SelectedItem is TypeDish type)
             {
-                listBoxMenu.DataSource =
-                    context.Dishes.Where(d => d.TypeDishId == type.TypeDishId).ToList();
+                listBoxMenu.Items.Clear();
+                listBoxMenu.Items.AddRange(context.Dishes.Where(d => d.TypeDishId == type.TypeDishId).ToArray());
             }
         }
 
-        // TODO: Додавання у кошик
-        private void ListBoxMenu_SelectedIndexChanged(object sender, EventArgs e)
+        private void UpdatePrice()
         {
-
+            label2.Text = $"До оплати : ${cart.Price}";
         }
 
-        // TODO: Видалення з кошика
+        private void ListBoxMenu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxMenu.SelectedItem is Dish dish)
+            {
+                cart.AddDish(dish);
+                listBoxCart.Items.Add(dish);
+                UpdatePrice();
+            }
+        }
+
+        private void ListBoxCart_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxCart.SelectedItem is Dish dish)
+            {
+                cart.RemoveDish(dish);
+                listBoxCart.Items.Remove(dish);
+                UpdatePrice();
+            }
+        }
     }
 }

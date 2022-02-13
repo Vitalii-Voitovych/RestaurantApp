@@ -1,9 +1,11 @@
-﻿namespace RestaurantApp.BL.Models
+﻿using System.Collections;
+
+namespace RestaurantApp.BL.Models
 {
-    public class Cart
+    public class Cart : IEnumerable
     {
         private Dictionary<Dish, int> dishes;
-
+        public decimal Price => GetAll().Sum(d => d.Price);
         public Cart()
         {
             dishes = new Dictionary<Dish, int>();
@@ -32,5 +34,26 @@
                 }
             }
         }
+
+        public IEnumerator GetEnumerator()
+        {
+            foreach (var dish in dishes.Keys)
+            {
+                for (int i = 0; i < dishes[dish]; i++)
+                {
+                    yield return dish;
+                }
+            }
+        }
+        public List<Dish> GetAll()
+        {
+            var list = new List<Dish>();
+            foreach (Dish dish in this)
+            {
+                list.Add(dish);
+            }
+            return list;
+        }
+
     }
 }
