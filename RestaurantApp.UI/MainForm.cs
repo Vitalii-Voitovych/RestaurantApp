@@ -9,6 +9,7 @@ namespace RestaurantApp.UI
     {
         private RestaurantAppContext context;
         private Cart cart;
+        private Customer customer;
         public MainForm()
         {
             InitializeComponent();
@@ -57,22 +58,38 @@ namespace RestaurantApp.UI
             form.Show();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private void LoadMenu()
         {
-            Task.Run(() =>
+            comboBoxTypeDish.Invoke(() =>
             {
-                comboBoxTypeDish.Invoke(() =>
-                {
-                    comboBoxTypeDish.Items.AddRange(context.TypeDishes.ToArray());
-                });
-                listBoxMenu.Invoke(() =>
-                {
-                    if (comboBoxTypeDish.SelectedItem is not TypeDish )
-                    {
-                        listBoxMenu.Items.AddRange(context.Dishes.OrderBy(d => d.Name).ToArray());
-                    }
-                });
+                comboBoxTypeDish.Items.AddRange(context.TypeDishes.ToArray());
             });
+            listBoxMenu.Invoke(() =>
+            {
+                if (comboBoxTypeDish.SelectedItem is not TypeDish)
+                {
+                    listBoxMenu.Items.AddRange(context.Dishes.OrderBy(d => d.Name).ToArray());
+                }
+            });
+        }
+
+        private async void MainForm_Load(object sender, EventArgs e)
+        {
+            var loginForm = new LoginForm(context);
+            loginForm.ShowDialog();
+            await Task.Run(() => LoadMenu());
+            if (loginForm.DialogResult == DialogResult.OK)
+            {
+                if (loginForm.IsLoggedIn)
+                {
+                    customer = loginForm.GetCustomer();
+                    labelCustomer.Text = $"{customer}";
+                }
+            }
+            else
+            {
+                Close();
+            }
         }
 
         private void ComboBoxTypeDish_SelectedIndexChanged(object sender, EventArgs e)
