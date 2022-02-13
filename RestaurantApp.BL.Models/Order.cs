@@ -10,9 +10,8 @@
         public List<Payment> Payments { get; set; }
         public override string ToString()
         {
-            return $"Замовлення № {OrderId} " +
-                   $"Номер столику {TableNumber}" +
-                   $"Прізвище + Ім'я: {Customer}" +
+            return $"Номер столику №{TableNumber} \n" +
+                   $"Прізвище + Ім'я: {Customer} \n" +
                    $"Дата: " + OrderDate.ToString("HH:mm dd.MM.yyyy");
         }
     }

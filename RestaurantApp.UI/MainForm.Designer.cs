@@ -41,7 +41,8 @@
             this.listBoxCart = new System.Windows.Forms.ListBox();
             this.labelCustomer = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnPay = new System.Windows.Forms.Button();
+            this.labelTableNumber = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -125,10 +126,10 @@
             // comboBoxTypeDish
             // 
             this.comboBoxTypeDish.FormattingEnabled = true;
-            this.comboBoxTypeDish.Location = new System.Drawing.Point(155, 50);
+            this.comboBoxTypeDish.Location = new System.Drawing.Point(139, 50);
             this.comboBoxTypeDish.MaxDropDownItems = 15;
             this.comboBoxTypeDish.Name = "comboBoxTypeDish";
-            this.comboBoxTypeDish.Size = new System.Drawing.Size(121, 23);
+            this.comboBoxTypeDish.Size = new System.Drawing.Size(137, 23);
             this.comboBoxTypeDish.TabIndex = 3;
             this.comboBoxTypeDish.SelectedIndexChanged += new System.EventHandler(this.ComboBoxTypeDish_SelectedIndexChanged);
             // 
@@ -162,21 +163,32 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "До оплати: ";
             // 
-            // button1
+            // btnPay
             // 
-            this.button1.Location = new System.Drawing.Point(393, 373);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 34);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Оплата";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnPay.Location = new System.Drawing.Point(393, 373);
+            this.btnPay.Name = "btnPay";
+            this.btnPay.Size = new System.Drawing.Size(75, 34);
+            this.btnPay.TabIndex = 7;
+            this.btnPay.Text = "Оплата";
+            this.btnPay.UseVisualStyleBackColor = true;
+            this.btnPay.Click += new System.EventHandler(this.BtnPay_Click);
+            // 
+            // labelTableNumber
+            // 
+            this.labelTableNumber.AutoSize = true;
+            this.labelTableNumber.Location = new System.Drawing.Point(393, 33);
+            this.labelTableNumber.Name = "labelTableNumber";
+            this.labelTableNumber.Size = new System.Drawing.Size(63, 15);
+            this.labelTableNumber.TabIndex = 8;
+            this.labelTableNumber.Text = "Столик №";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 419);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.labelTableNumber);
+            this.Controls.Add(this.btnPay);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelCustomer);
             this.Controls.Add(this.listBoxCart);
@@ -210,6 +222,7 @@
         private ListBox listBoxCart;
         private Label labelCustomer;
         private Label label2;
-        private Button button1;
+        private Button btnPay;
+        private Label labelTableNumber;
     }
 }
