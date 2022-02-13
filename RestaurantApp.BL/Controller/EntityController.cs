@@ -15,10 +15,10 @@ namespace RestaurantApp.BL.Controller
         {
             Db = context;
             Table = Db.Set<T>();
-            Table.LoadAsync();
+            Table.Load();
         }
 
-        public BindingList<T> GetAll() => Table.Local.ToBindingList();
+        public IEnumerable<T> GetAll() => Table.Local.ToBindingList();
 
         public T GetOne(object id) => Table.Find(id);
 

@@ -38,6 +38,8 @@
             this.listBoxMenu = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxTypeDish = new System.Windows.Forms.ComboBox();
+            this.listBoxCart = new System.Windows.Forms.ListBox();
+            this.labelCustomer = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,6 +108,7 @@
             this.listBoxMenu.Name = "listBoxMenu";
             this.listBoxMenu.Size = new System.Drawing.Size(219, 334);
             this.listBoxMenu.TabIndex = 1;
+            this.listBoxMenu.SelectedIndexChanged += new System.EventHandler(this.ListBoxMenu_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -121,15 +124,38 @@
             // 
             this.comboBoxTypeDish.FormattingEnabled = true;
             this.comboBoxTypeDish.Location = new System.Drawing.Point(110, 50);
+            this.comboBoxTypeDish.MaxDropDownItems = 15;
             this.comboBoxTypeDish.Name = "comboBoxTypeDish";
             this.comboBoxTypeDish.Size = new System.Drawing.Size(121, 23);
             this.comboBoxTypeDish.TabIndex = 3;
+            this.comboBoxTypeDish.SelectedIndexChanged += new System.EventHandler(this.ComboBoxTypeDish_SelectedIndexChanged);
+            // 
+            // listBoxCart
+            // 
+            this.listBoxCart.FormattingEnabled = true;
+            this.listBoxCart.ItemHeight = 15;
+            this.listBoxCart.Location = new System.Drawing.Point(393, 72);
+            this.listBoxCart.Name = "listBoxCart";
+            this.listBoxCart.Size = new System.Drawing.Size(227, 274);
+            this.listBoxCart.TabIndex = 4;
+            // 
+            // labelCustomer
+            // 
+            this.labelCustomer.AutoSize = true;
+            this.labelCustomer.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelCustomer.Location = new System.Drawing.Point(393, 48);
+            this.labelCustomer.Name = "labelCustomer";
+            this.labelCustomer.Size = new System.Drawing.Size(61, 21);
+            this.labelCustomer.TabIndex = 5;
+            this.labelCustomer.Text = "Клієнт";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 419);
+            this.Controls.Add(this.labelCustomer);
+            this.Controls.Add(this.listBoxCart);
             this.Controls.Add(this.comboBoxTypeDish);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBoxMenu);
@@ -157,5 +183,7 @@
         private ListBox listBoxMenu;
         private Label label1;
         private ComboBox comboBoxTypeDish;
+        private ListBox listBoxCart;
+        private Label labelCustomer;
     }
 }

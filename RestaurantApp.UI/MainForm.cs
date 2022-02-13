@@ -1,20 +1,14 @@
 ﻿using RestaurantApp.BL.Models;
 using RestaurantApp.BL.EF;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using RestaurantApp.UI.Forms;
 
 namespace RestaurantApp.UI
 {
     public partial class MainForm : Form
     {
         private RestaurantAppContext context;
+        private Cart cart;
         public MainForm()
         {
             InitializeComponent();
@@ -24,13 +18,23 @@ namespace RestaurantApp.UI
         private void DishToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new Forms.DataGridForm<Dish>(context);
-            form.Show();
+            if (form.ShowDialog() == DialogResult.Cancel)
+            {
+                if (comboBoxTypeDish.SelectedItem is TypeDish type)
+                {
+                    listBoxMenu.DataSource =
+                        context.Dishes.Where(d => d.TypeDishId == type.TypeDishId).OrderBy(d => d.Name).ToList();
+                }
+            }
         }
 
         private void TypeDishToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new Forms.DataGridForm<TypeDish>(context);
-            form.Show();
+            if (form.ShowDialog() == DialogResult.Cancel)
+            {
+                comboBoxTypeDish.DataSource = context.TypeDishes.ToList();
+            }
         }
 
         private void CustomerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -57,15 +61,51 @@ namespace RestaurantApp.UI
             {
                 comboBoxTypeDish.Invoke(() =>
                 {
-                    comboBoxTypeDish.DataSource = context.TypeDishes.ToArray();
+                    comboBoxTypeDish.DataSource = context.TypeDishes.ToList();
                 });
                 listBoxMenu.Invoke(() =>
                 {
-                    listBoxMenu.Items.AddRange(context.Dishes.ToArray());
+                    if (comboBoxTypeDish.SelectedItem is TypeDish type)
+                    {
+                        listBoxMenu.DataSource =
+                            context.Dishes.Where(d => d.TypeDishId == type.TypeDishId).OrderBy(d => d.Name).ToList();
+                    }
                 });
             });
+            var customerForm = new LoginForm(context);
+            if (customerForm.ShowDialog() == DialogResult.OK)
+            {
+                if (customerForm.IsLoggedIn)
+                {
+                    labelCustomer.Text = $"{customerForm.GetCustomer()}";
+                }
+                else
+                {
+                    Close();
+                }
+            }
+            else
+            {
+                Close();
+            }
+            cart = new Cart();
         }
 
-        // TODO: Вибір по категоріям
+        private void ComboBoxTypeDish_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxTypeDish.SelectedItem is TypeDish type)
+            {
+                listBoxMenu.DataSource =
+                    context.Dishes.Where(d => d.TypeDishId == type.TypeDishId).ToList();
+            }
+        }
+
+        // TODO: Додавання у кошик
+        private void ListBoxMenu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        // TODO: Видалення з кошика
     }
 }
