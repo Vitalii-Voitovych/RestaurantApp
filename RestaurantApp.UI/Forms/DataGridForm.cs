@@ -50,6 +50,11 @@ namespace RestaurantApp.UI.Forms
             var id = dataGridView1.SelectedRows[0].Cells[0].Value;
             switch (typeof(T).Name)
             {
+                case "Customer":
+                    var customer = controller.GetOne(id);
+                    controller.RemoveRecord(customer);
+                    dataGridView1.Update();
+                    break;
                 case "TypeDish":
                     var typeDish = controller.GetOne(id);
                     controller.RemoveRecord(typeDish);
@@ -74,6 +79,15 @@ namespace RestaurantApp.UI.Forms
             var id = dataGridView1.SelectedRows[0].Cells[0].Value;
             switch (typeof(T).Name)
             {
+                case "Customer":
+                    var customer = controller.GetOne(id);
+                    var customerForm = new CustomerForm(customer as Customer);
+                    if (customerForm.ShowDialog() == DialogResult.OK)
+                    {
+                        controller.Update();
+                        dataGridView1.Update();
+                    }
+                    break;
                 case "TypeDish":
                     var typeDish = controller.GetOne(id);
                     var typeDishForm = new TypeDishForm(typeDish as TypeDish);
