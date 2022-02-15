@@ -12,6 +12,9 @@ namespace RestaurantApp.UI
         private Cart cart;
         private Customer customer;
         private Order order;
+        private Check check;
+        private int tableNumber;
+        private bool isPayment;
         public MainForm()
         {
             InitializeComponent();
@@ -86,7 +89,8 @@ namespace RestaurantApp.UI
                 {
                     customer = loginForm.GetCustomer();
                     labelCustomer.Text = $"{customer}";
-
+                    tableNumber = new Random().Next(1, 7);
+                    labelTableNumber.Text = $"Столик №{tableNumber}";
                 }
             }
             else
@@ -115,13 +119,13 @@ namespace RestaurantApp.UI
             {
                 if (cart.Count == 0)
                 {
+                    isPayment = false;
                     order = new Order()
                     {
                         CustomerId = customer.CustomerId,
-                        TableNumber = new Random().Next(1, 7),
+                        TableNumber = tableNumber,
                         OrderDate = DateTime.Now
                     };
-                    labelTableNumber.Text = $"Столик №{order.TableNumber}";
                 }
                 cart.AddDish(dish);
                 listBoxCart.Items.Add(dish);
@@ -139,7 +143,6 @@ namespace RestaurantApp.UI
                 if (cart.Count == 0)
                 {
                     order = null;
-                    labelTableNumber.Text = $"Столик №";
                 }
             }
         }
@@ -148,6 +151,7 @@ namespace RestaurantApp.UI
         {
             if (order != null)
             {
+                DateTime paymentDate = DateTime.Now;
                 var orderController = new EntityController<Order>(context);
                 orderController.AddRecord(order);
                 var paymentController = new EntityController<Payment>(context);
@@ -157,18 +161,33 @@ namespace RestaurantApp.UI
                     {
                         OrderId = order.OrderId,
                         DishId = dish.DishId,
-                        PaymentDate = DateTime.Now,
+                        PaymentDate = paymentDate,
                     };
                     paymentController.AddRecord(payment);
                 }
+                check = new Check(order, customer, cart, paymentDate);
                 cart.Clear();
                 listBoxCart.Items.Clear();
                 UpdatePrice();
                 order = null;
+                isPayment = true;
             }
             else
             {
                 MessageBox.Show("Ви не вибрали страви!", "Помилка!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void BtnCheck_Click(object sender, EventArgs e)
+        {
+            if (isPayment)
+            {
+                MessageBox.Show(check.ToString());
+            }
+            else
+            {
+                MessageBox.Show("Ви ще не оплатили", "",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

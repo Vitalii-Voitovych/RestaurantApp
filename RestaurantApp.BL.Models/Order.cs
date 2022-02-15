@@ -11,8 +11,8 @@
         public override string ToString()
         {
             return $"Номер столику №{TableNumber} \n" +
-                   $"Прізвище + Ім'я: {Customer} \n" +
-                   $"Дата: " + OrderDate.ToString("HH:mm dd.MM.yyyy");
+                   $"{Customer} \n" +
+                   $""+ OrderDate.ToString("HH:mm dd.MM.yyyy");
         }
     }
 }

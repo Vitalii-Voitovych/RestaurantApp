@@ -43,6 +43,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnPay = new System.Windows.Forms.Button();
             this.labelTableNumber = new System.Windows.Forms.Label();
+            this.btnCheck = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -169,7 +170,7 @@
             this.btnPay.Name = "btnPay";
             this.btnPay.Size = new System.Drawing.Size(75, 34);
             this.btnPay.TabIndex = 7;
-            this.btnPay.Text = "Оплата";
+            this.btnPay.Text = "Оплатити";
             this.btnPay.UseVisualStyleBackColor = true;
             this.btnPay.Click += new System.EventHandler(this.BtnPay_Click);
             // 
@@ -182,11 +183,22 @@
             this.labelTableNumber.TabIndex = 8;
             this.labelTableNumber.Text = "Столик №";
             // 
+            // btnCheck
+            // 
+            this.btnCheck.Location = new System.Drawing.Point(474, 372);
+            this.btnCheck.Name = "btnCheck";
+            this.btnCheck.Size = new System.Drawing.Size(75, 34);
+            this.btnCheck.TabIndex = 9;
+            this.btnCheck.Text = "Чек";
+            this.btnCheck.UseVisualStyleBackColor = true;
+            this.btnCheck.Click += new System.EventHandler(this.BtnCheck_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 419);
+            this.Controls.Add(this.btnCheck);
             this.Controls.Add(this.labelTableNumber);
             this.Controls.Add(this.btnPay);
             this.Controls.Add(this.label2);
@@ -224,5 +236,6 @@
         private Label label2;
         private Button btnPay;
         private Label labelTableNumber;
+        private Button btnCheck;
     }
 }
