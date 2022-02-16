@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantApp.BL.EF;
-using System.ComponentModel;
 
 namespace RestaurantApp.BL.Controller
 {

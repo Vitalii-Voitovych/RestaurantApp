@@ -15,7 +15,32 @@ namespace RestaurantApp.UI.Forms
             controller = new EntityController<T>(context);
             dataGridView1.DataSource = controller.GetAll();
         }
-        // TODO: Рефакторинг
+
+        private void Add(T entity)
+        {
+            controller.AddRecord(entity);
+            dataGridView1.Update();
+        }
+
+        private int Edit(Form form)
+        {
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                controller.Update();
+                dataGridView1.Update();
+                return 1;
+            }
+            return 0;
+        }
+
+        private int Remove(object id)
+        {
+            var entity = controller.GetOne(id);
+            controller.RemoveRecord(entity);
+            dataGridView1.Update();
+            return 1;
+        }
+
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             switch (typeof(T).Name)
@@ -23,24 +48,16 @@ namespace RestaurantApp.UI.Forms
                 case "TypeDish":
                     var typeDishForm = new TypeDishForm();
                     if (typeDishForm.ShowDialog() == DialogResult.OK)
-                    {
-                        controller.AddRecord(typeDishForm.TypeDish as T);
-                        dataGridView1.Update();
-                    }
+                        Add(typeDishForm.TypeDish as T);
                     break;
                 case "Dish":
                     var dishForm = new DishForm(controller.Db.TypeDishes);
                     if (dishForm.ShowDialog() == DialogResult.OK)
-                    {
-                        controller.AddRecord(dishForm.Dish as T);
-                        dataGridView1.Update();
-                    }
+                        Add(dishForm.Dish as T);
                     break;
                 default:
-                    MessageBox.Show("Не можна додавати до цієї таблиці",
-                                    "Попередження",
-                                    MessageBoxButtons.OK, 
-                                    MessageBoxIcon.Warning);
+                    MessageBox.Show("Не можна додавати до цієї таблиці", "Попередження",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     break;
             }
         }
@@ -48,71 +65,29 @@ namespace RestaurantApp.UI.Forms
         private void BtnRemove_Click(object sender, EventArgs e)
         {
             var id = dataGridView1.SelectedRows[0].Cells[0].Value;
-            switch (typeof(T).Name)
+            object a = typeof(T).Name switch
             {
-                case "Customer":
-                    var customer = controller.GetOne(id);
-                    controller.RemoveRecord(customer);
-                    dataGridView1.Update();
-                    break;
-                case "TypeDish":
-                    var typeDish = controller.GetOne(id);
-                    controller.RemoveRecord(typeDish);
-                    dataGridView1.Update();
-                    break;
-                case "Dish":
-                    var dish = controller.GetOne(id);
-                    controller.RemoveRecord(dish);
-                    dataGridView1.Update();
-                    break;
-                default:
-                    MessageBox.Show("Не можна додавати до цієї таблиці",
-                                    "Попередження",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
-                    break;
-            }
+                "Customer" => Remove(id),
+                "TypeDish" => Remove(id),
+                "Dish" => Remove(id),
+                _ => MessageBox.Show("Не можна додавати до цієї таблиці", "Попередження", 
+                                     MessageBoxButtons.OK, MessageBoxIcon.Warning),
+            };
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
             var id = dataGridView1.SelectedRows[0].Cells[0].Value;
-            switch (typeof(T).Name)
+            var entity = controller.GetOne(id);
+
+            object a = typeof(T).Name switch
             {
-                case "Customer":
-                    var customer = controller.GetOne(id);
-                    var customerForm = new CustomerForm(customer as Customer);
-                    if (customerForm.ShowDialog() == DialogResult.OK)
-                    {
-                        controller.Update();
-                        dataGridView1.Update();
-                    }
-                    break;
-                case "TypeDish":
-                    var typeDish = controller.GetOne(id);
-                    var typeDishForm = new TypeDishForm(typeDish as TypeDish);
-                    if (typeDishForm.ShowDialog() == DialogResult.OK)
-                    {
-                        controller.Update();
-                        dataGridView1.Update();
-                    }
-                    break;
-                case "Dish":
-                    var dish = controller.GetOne(id);
-                    var dishForm = new DishForm(dish as Dish, controller.Db.TypeDishes);
-                    if (dishForm.ShowDialog() == DialogResult.OK)
-                    {
-                        controller.Update();
-                        dataGridView1.Update();
-                    }
-                    break;
-                default:
-                    MessageBox.Show("Не можна додавати до цієї таблиці",
-                                    "Попередження",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
-                    break;
-            }
+                "Customer" => Edit(new CustomerForm(entity as Customer)),
+                "TypeDish" => Edit(new TypeDishForm(entity as TypeDish)),
+                "Dish" => Edit(new DishForm(entity as Dish, controller.Db.TypeDishes)),
+                _ => MessageBox.Show("Не можна додавати до цієї таблиці", "Попередження",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning),
+            };
         }
     }
 }

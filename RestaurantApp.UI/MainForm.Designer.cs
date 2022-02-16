@@ -35,6 +35,7 @@
             this.typeDishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.orderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.informationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listBoxMenu = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxTypeDish = new System.Windows.Forms.ComboBox();
@@ -50,7 +51,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.сутностіToolStripMenuItem});
+            this.сутностіToolStripMenuItem,
+            this.informationToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(709, 24);
@@ -103,6 +105,13 @@
             this.paymentToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.paymentToolStripMenuItem.Text = "Оплата";
             this.paymentToolStripMenuItem.Click += new System.EventHandler(this.PaymentToolStripMenuItem_Click);
+            // 
+            // informationToolStripMenuItem
+            // 
+            this.informationToolStripMenuItem.Name = "informationToolStripMenuItem";
+            this.informationToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.informationToolStripMenuItem.Text = "Довідка";
+            this.informationToolStripMenuItem.Click += new System.EventHandler(this.InformationToolStripMenuItem_Click);
             // 
             // listBoxMenu
             // 
@@ -208,7 +217,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBoxMenu);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -237,5 +248,6 @@
         private Button btnPay;
         private Label labelTableNumber;
         private Button btnCheck;
+        private ToolStripMenuItem informationToolStripMenuItem;
     }
 }

@@ -68,7 +68,7 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Назва\r\n";
             // 
-            // TypeProductForm
+            // TypeDishForm
             // 
             this.AcceptButton = this.okBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -78,7 +78,8 @@
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.okBtn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "TypeProductForm";
+            this.MaximizeBox = false;
+            this.Name = "TypeDishForm";
             this.Text = "Вид страви";
             this.ResumeLayout(false);
             this.PerformLayout();

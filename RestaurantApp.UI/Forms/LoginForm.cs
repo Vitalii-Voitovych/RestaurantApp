@@ -6,7 +6,7 @@ namespace RestaurantApp.UI.Forms
 {
     public partial class LoginForm : Form
     {
-        private EntityController<Customer> controller;
+        private readonly EntityController<Customer> controller;
         private Customer customer;
 
         public bool IsLoggedIn { get; private set; } = false;

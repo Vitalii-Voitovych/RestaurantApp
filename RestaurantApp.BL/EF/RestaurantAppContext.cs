@@ -5,10 +5,7 @@ namespace RestaurantApp.BL.EF
 {
     public class RestaurantAppContext : DbContext
     {
-        public RestaurantAppContext()
-        {
-
-        }
+        public RestaurantAppContext() { }
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Dish> Dishes { get; set; }

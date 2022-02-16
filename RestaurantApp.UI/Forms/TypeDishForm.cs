@@ -4,7 +4,7 @@ namespace RestaurantApp.UI.Forms
 {
     public partial class TypeDishForm : Form
     {
-        public TypeDish TypeDish { get; set; }
+        public TypeDish TypeDish { get; private set; }
         public TypeDishForm()
         {
             InitializeComponent();

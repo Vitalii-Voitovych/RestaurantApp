@@ -188,6 +188,7 @@
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "DishForm";
             this.Text = "DishForm";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKilocalories)).EndInit();

@@ -5,7 +5,7 @@ namespace RestaurantApp.UI.Forms
 {
     public partial class DishForm : Form
     {
-        public Dish Dish { get; set; }
+        public Dish Dish { get; private set; }
         public DishForm(DbSet<TypeDish> typeDishes)
         {
             InitializeComponent();

@@ -4,7 +4,7 @@ namespace RestaurantApp.BL.Models
 {
     public class Cart : IEnumerable
     {
-        private Dictionary<Dish, int> dishes;
+        private readonly Dictionary<Dish, int> dishes;
         public int Count => dishes.Count;
         public decimal Price => GetAll().Sum(d => d.Price);
         public Cart()

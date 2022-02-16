@@ -4,7 +4,7 @@ namespace RestaurantApp.BL.Models
 {
     public class Check
     {
-        private string text;
+        private readonly string text;
         public Check(Order order, Customer customer, Cart cart, DateTime paymentDate)
         {
             StringBuilder sb = new StringBuilder();

@@ -8,8 +8,8 @@ namespace RestaurantApp.UI
 {
     public partial class MainForm : Form
     {
-        private RestaurantAppContext context;
-        private Cart cart;
+        private readonly RestaurantAppContext context;
+        private readonly Cart cart;
         private Customer customer;
         private Order order;
         private Check check;
@@ -190,6 +190,12 @@ namespace RestaurantApp.UI
                 MessageBox.Show("Ви ще не оплатили", "",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void InformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Розробник : Войтович Віталій", "Довідка",
+                MessageBoxButtons.OK, MessageBoxIcon.Question);
         }
     }
 }

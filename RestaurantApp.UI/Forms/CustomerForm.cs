@@ -4,7 +4,7 @@ namespace RestaurantApp.UI.Forms
 {
     public partial class CustomerForm : Form
     {
-        public Customer Customer { get; set; }
+        public Customer Customer { get; private set; }
         public CustomerForm()
         {
             InitializeComponent();
